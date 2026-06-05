@@ -963,6 +963,127 @@
     color: #00838f; font-size: 18px; align-self: center;
   }
 
+  /* Phase 2+: Back-to-menu breadcrumb shown above each entry screen */
+  .back-to-menu {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12.5px; color: #4a5a6e;
+    cursor: pointer; padding: 4px 10px 4px 6px;
+    border-radius: 4px; margin-bottom: 14px;
+    transition: all 0.15s; user-select: none;
+    width: fit-content;
+  }
+  .back-to-menu:hover {
+    color: #00838f; background: #f0fcfd;
+  }
+  .back-to-menu svg { flex-shrink: 0; }
+
+  /* Phase 2+: Enrichment menu (tile-driven entry) */
+  .enrich-menu-page {
+    max-width: 960px; margin: 0 auto; padding: 36px 32px;
+  }
+  .enrich-menu-page h2 {
+    font-size: 24px; font-weight: 600; color: #1b2534; margin: 0 0 6px;
+  }
+  .enrich-menu-page .em-sub {
+    font-size: 14px; color: rgba(0,0,0,0.55); margin: 0 0 26px;
+  }
+  .enrich-tile-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .enrich-tile {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 18px;
+    background: linear-gradient(135deg, #f0fcfd, #e6f9fb);
+    border: 1px solid #b8ecf4; border-radius: 8px;
+    cursor: pointer; transition: all 0.15s;
+    position: relative;
+  }
+  .enrich-tile:hover {
+    border-color: #00c4d4;
+    box-shadow: 0 2px 8px rgba(0, 196, 212, 0.15);
+    transform: translateY(-1px);
+  }
+  .enrich-tile .et-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: #00c4d4; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .enrich-tile .et-text { flex: 1; }
+  .enrich-tile .et-title {
+    font-size: 14.5px; font-weight: 700; color: #1b2534;
+  }
+  .enrich-tile .et-desc {
+    font-size: 12.5px; color: #4a5a6e; margin-top: 3px; line-height: 1.4;
+  }
+  .enrich-tile .et-arrow {
+    color: #00838f; font-size: 18px; align-self: center;
+  }
+
+  /* Phase 2+: Individual identifier quick lookup */
+  .individual-page {
+    max-width: 760px; margin: 0 auto; padding: 36px 32px;
+  }
+  .individual-page h2 {
+    font-size: 22px; font-weight: 600; color: #1b2534; margin: 0 0 6px;
+  }
+  .individual-page .ind-sub {
+    font-size: 13.5px; color: rgba(0,0,0,0.55); margin: 0 0 22px;
+  }
+  .ind-input-card {
+    background: #fff; border: 1px solid #e2e6ea; border-radius: 8px;
+    padding: 18px; margin-bottom: 18px;
+  }
+  .ind-input-row { display: flex; gap: 10px; align-items: stretch; }
+  .ind-input-row input {
+    flex: 1; padding: 12px 14px;
+    border: 1px solid #d0d7de; border-radius: 6px;
+    font-size: 14px; font-family: inherit; outline: none;
+  }
+  .ind-input-row input:focus {
+    border-color: #00c4d4;
+    box-shadow: 0 0 0 3px rgba(0,196,212,0.12);
+  }
+  .ind-detected {
+    font-size: 12px; color: #4a5a6e;
+    margin-top: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .ind-detected .ind-detected-type {
+    background: #00c4d4; color: #fff;
+    padding: 2px 8px; border-radius: 10px;
+    font-weight: 600; font-size: 11px;
+  }
+  .ind-detected.empty .ind-detected-type {
+    background: #e2e6ea; color: #8a96a8;
+  }
+  .ind-result {
+    background: #fff; border: 1px solid #e2e6ea; border-radius: 8px;
+    padding: 18px; display: none;
+  }
+  .ind-result.active { display: block; }
+  .ind-result-head {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    padding-bottom: 14px; border-bottom: 1px solid #f0f2f5;
+  }
+  .ind-result-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, #00c4d4, #4a90e2);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+  }
+  .ind-result-name { font-size: 16px; font-weight: 700; color: #1b2534; }
+  .ind-result-meta { font-size: 12px; color: #6a7a8e; margin-top: 2px; }
+  .ind-result-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px;
+  }
+  .ind-field-label {
+    font-size: 10.5px; text-transform: uppercase;
+    color: #8a96a8; letter-spacing: 0.4px; font-weight: 600;
+  }
+  .ind-field-value {
+    font-size: 13.5px; color: #1b2534; margin-top: 2px;
+  }
+
   /* ========== "What's in this phase" explainer panel ========== */
   .phase-explainer {
     background: #fff; border-bottom: 1px solid #e2e6ea;
@@ -1959,8 +2080,13 @@
   var _s = atob('ZmMtbWt0LXN0YWtlaG9sZGVyLXJldmlldy0yMDI2');
   var _d = [
     '766769bea5e66b55882ec0ac385aa05c871943d0a06b4d40da679eec1a511bb1',
-    'f886ac112da5d8f100b89c88aa3d9fdf75ac481335f07a5b9962fe1f5a7ef080'
+    'f886ac112da5d8f100b89c88aa3d9fdf75ac481335f07a5b9962fe1f5a7ef080',
+    'a66e45e94572486150db13230f89df68ba9886c769c3f8b7846549e98aeb880c',
+    '06d52fd35ed29a2bef7ef5b716316c41c83b08410c7287fd611393245f2ec6ec',
+    'f6ec132772bb46ab15c8f53d027141dcc539165ee552871958a1995bd5de657a',
+    '2c5fa59f795682ed9b2391d60b9980381502f6ba04e624e6ecc25e5da29be315'
   ];
+  var _labels = ['code-Ziff24', 'code-mattw26', 'code-ziff24', 'code-ziff26', 'code-Ziff26', 'code-jake26'];
   async function _h(s) {
     var b = new TextEncoder().encode(s);
     var d = await crypto.subtle.digest('SHA-256', b);
@@ -1974,7 +2100,7 @@
       var h = await _h(_s + v);
       var idx = _d.indexOf(h);
       if (idx !== -1) {
-        var codeLabel = idx === 1 ? 'code-mattw26' : 'code-' + (idx + 1);
+        var codeLabel = _labels[idx] || ('code-' + (idx + 1));
         fetch('https://formspree.io/f/xeenrqyv', {
           method: 'POST',
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -2066,16 +2192,16 @@
 
   <div class="sidebar-section">
     <div class="sidebar-section-title">Data Marketplace</div>
-    <!-- File Enrichment -->
+    <!-- Enrichment -->
     <div class="sidebar-item active" id="nav-enrich"
          data-phase-changes="1B,2,3,4"
          data-change-1B="Upgrade flow now self-serve — buy matches without Sales"
-         data-change-2="Pull from Customer Recognition tag added as a third input source"
+         data-change-2="Entry replaced with tile menu (CSV / paste / CR tag / individual lookup)"
          data-change-3="Insight bundle add-on appears in confirm step"
          data-change-4="3rd-party vendor datasets selectable in confirm step"
-         onclick="navigate('upload')">
+         onclick="navigateEnrichEntry()">
       <div class="si-icon"><svg viewBox="0 0 20 18" fill="currentColor" stroke="currentColor"><path d="M1.5 1.5h7l3 3v11.5h-10z" fill="none" stroke-width="1.3" stroke-linejoin="round"/><path d="M8.5 1.5v3h3" fill="none" stroke-width="1.3" stroke-linejoin="round"/><path d="M15.5.5l.6 1.3 1.4.2-1 1 .2 1.4-1.2-.7-1.2.7.2-1.4-1-1 1.4-.2z" fill="currentColor" stroke="none"/><path d="M12.5 6l.7-1.2.7 1.2-.7 1.2z" fill="currentColor" stroke="none"/><path d="M12.5 6l1.2-.7-1.2.7-1.2-.7z" fill="currentColor" stroke="none"/><path d="M18 8l0-1.5 0 1.5 1.5 0-1.5 0 0 1.5 0-1.5-1.5 0z" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M14.5 11.5l.6-1 .6 1-.6 1z" fill="currentColor" stroke="none"/><path d="M14.5 11.5l1-.6-1 .6-1-.6z" fill="currentColor" stroke="none"/><path d="M12 15l0-1.2 0 1.2 1.2 0-1.2 0 0 1.2 0-1.2-1.2 0z" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>
-      <span>File Enrichment</span>
+      <span>Enrichment</span>
       <span class="arrow">&#9662;</span>
     </div>
     <!-- Reports sub -->
@@ -2238,9 +2364,9 @@
     <!-- LANDING -->
     <div class="screen active" id="screen-landing">
       <div class="hero">
-        <div class="hero-label">File Enrichment</div>
+        <div class="hero-label">Enrichment</div>
         <h1>Enrich Customer Records</h1>
-        <button class="hero-btn" onclick="navigate('upload')">
+        <button class="hero-btn" onclick="navigateEnrichEntry()">
           UPLOAD YOUR FILE
           <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -2281,6 +2407,10 @@
     <!-- UPLOAD -->
     <div class="screen" id="screen-upload">
       <div class="upload-page">
+        <div class="back-to-menu" data-phase-min="2" onclick="navigateEnrichEntry()">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to Enrichment menu
+        </div>
         <h2>Upload Your File</h2>
         <p style="font-size:13.5px;color:rgba(0,0,0,0.5);margin-top:-18px;margin-bottom:20px;">Files must be in CSV format (.csv)</p>
         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
@@ -2309,7 +2439,7 @@
           <div class="remove-file" onclick="removeFile()">&times;</div>
         </div>
         <div class="upload-links">
-          <a href="#" onclick="event.preventDefault();navigate('paste')">
+          <a href="#" data-phase-max="1B" onclick="event.preventDefault();navigate('paste')">
             <svg viewBox="0 0 14 14"><path d="M2 1h10v12H2V1z" fill="none" stroke="#00c4d4" stroke-width="1.2"/><line x1="4.5" y1="5" x2="9.5" y2="5" stroke="#00c4d4" stroke-width="0.8"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="#00c4d4" stroke-width="0.8"/><line x1="4.5" y1="9" x2="7.5" y2="9" stroke="#00c4d4" stroke-width="0.8"/></svg>
             Or copy and paste your list here
           </a>
@@ -2319,8 +2449,8 @@
           </a>
         </div>
 
-        <!-- Phase 2+: Pull from Customer Recognition tag -->
-        <div class="upload-extra-option" data-phase-min="2" data-shimmer-pill="true" onclick="navigate('tag-import')">
+        <!-- Phase 2+: Pull from Customer Recognition tag (P1 only — Phase 2+ accesses via tile menu) -->
+        <div class="upload-extra-option" data-phase-only="never" data-shimmer-pill="true" onclick="navigate('tag-import')">
           <div class="ueo-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <circle cx="10" cy="10" r="3" stroke="#fff" stroke-width="1.6"/>
@@ -2337,9 +2467,107 @@
       </div>
     </div>
 
+    <!-- ENRICH MENU (Phase 2+) — tile-driven entry point -->
+    <div class="screen" id="screen-enrich-menu">
+      <div class="enrich-menu-page">
+        <h2>How would you like to enrich?</h2>
+        <p class="em-sub">Pick a starting point — we'll guide you through the rest.</p>
+        <div class="enrich-tile-grid">
+          <div class="enrich-tile" onclick="navigate('upload')">
+            <div class="et-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M14 3v6h6" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M12 17v-6m-3 3l3-3 3 3" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="et-text">
+              <div class="et-title">Upload a CSV</div>
+              <div class="et-desc">Bring a file of records — we'll map fields and process the batch.</div>
+            </div>
+            <div class="et-arrow">→</div>
+          </div>
+          <div class="enrich-tile" onclick="navigate('paste')">
+            <div class="et-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <rect x="6" y="4" width="12" height="16" rx="1.5" stroke="#fff" stroke-width="1.7"/>
+                <line x1="9" y1="9" x2="15" y2="9" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+                <line x1="9" y1="12" x2="15" y2="12" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+                <line x1="9" y1="15" x2="13" y2="15" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="et-text">
+              <div class="et-title">Paste a list</div>
+              <div class="et-desc">Drop identifiers in directly — emails, phones, or other inputs, one per line.</div>
+            </div>
+            <div class="et-arrow">→</div>
+          </div>
+          <div class="enrich-tile" onclick="navigate('tag-import')">
+            <div class="et-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="3" stroke="#fff" stroke-width="1.7"/>
+                <path d="M4 11a7 7 0 0 1 14 0" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+                <path d="M6.5 14.5a4.5 4.5 0 0 1 9 0" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="et-text">
+              <div class="et-title">Pull from Customer Recognition tag</div>
+              <div class="et-desc">Use recent unique visitors from your deployed CR tag as the enrichment input.</div>
+            </div>
+            <div class="et-arrow">→</div>
+          </div>
+          <div class="enrich-tile" onclick="navigate('individual')">
+            <div class="et-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="1.7"/>
+                <line x1="15.5" y1="15.5" x2="20" y2="20" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="et-text">
+              <div class="et-title">Enrich an individual identifier</div>
+              <div class="et-desc">Quick lookup — paste a single email, phone, MAID, or social URL to see an enriched profile.</div>
+            </div>
+            <div class="et-arrow">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INDIVIDUAL IDENTIFIER LOOKUP (Phase 2+) -->
+    <div class="screen" id="screen-individual">
+      <div class="individual-page">
+        <h2>Enrich an individual identifier</h2>
+        <p class="ind-sub">Single-record lookup. Inline result only — doesn't appear in Reports.</p>
+        <div class="ind-input-card">
+          <div class="ind-input-row">
+            <input type="text" id="indInput" placeholder="Email, phone, MAID, or social profile URL" oninput="updateIndDetected()" onkeydown="if(event.key==='Enter') runIndividualLookup()">
+            <button class="btn-primary" onclick="runIndividualLookup()">Lookup</button>
+          </div>
+          <div class="ind-detected empty" id="indDetected">Detected type: <span class="ind-detected-type" id="indDetectedType">—</span></div>
+        </div>
+        <div class="ind-result" id="indResult">
+          <div class="ind-result-head">
+            <div class="ind-result-avatar" id="indAvatar">—</div>
+            <div>
+              <div class="ind-result-name" id="indName">—</div>
+              <div class="ind-result-meta" id="indMeta">—</div>
+            </div>
+          </div>
+          <div class="ind-result-grid" id="indFields"></div>
+        </div>
+        <div class="btn-row" style="margin-top:18px;">
+          <button class="btn-secondary" onclick="navigateEnrichEntry()">Back to menu</button>
+        </div>
+      </div>
+    </div>
+
     <!-- TAG IMPORT (Phase 2+) -->
     <div class="screen" id="screen-tag-import">
       <div class="tag-import-page">
+        <div class="back-to-menu" data-phase-min="2" onclick="navigateEnrichEntry()">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to Enrichment menu
+        </div>
         <h2>Import from Customer Recognition Tag</h2>
         <p class="tag-import-sub">Pull a window of unique visitors from your deployed CR tag and use them as the enrichment input — no CSV upload needed.</p>
 
@@ -2375,7 +2603,7 @@
         </div>
 
         <div class="btn-row" style="margin-top:18px;justify-content:space-between;">
-          <button class="btn-secondary" onclick="navigate('upload')">Back</button>
+          <button class="btn-secondary" onclick="navigateEnrichEntry()">Back</button>
           <button class="btn-primary" onclick="handleTagImportContinue()">Continue with these visitors</button>
         </div>
       </div>
@@ -2384,6 +2612,10 @@
     <!-- PASTE -->
     <div class="screen" id="screen-paste">
       <div class="paste-page">
+        <div class="back-to-menu" data-phase-min="2" onclick="navigateEnrichEntry()">
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to Enrichment menu
+        </div>
         <h2>Upload Your File</h2>
         <p style="font-size:13.5px;color:rgba(0,0,0,0.5);margin-bottom:12px;">One record per line, separated by commas <span class="dev-note">Confirm this is the correct expected format</span></p>
         <div class="paste-container">
@@ -2393,7 +2625,7 @@
           </div>
         </div>
         <div class="upload-links">
-          <a href="#" onclick="event.preventDefault();navigate('upload')">
+          <a href="#" data-phase-max="1B" onclick="event.preventDefault();navigate('upload')">
             <svg viewBox="0 0 14 14"><path d="M85 45c0-16.5-13.5-30-30-30-13 0-24 8.3-28.2 20C14.5 36.5 5 47 5 59.5 5 73.6 16.4 85 30.5 85h52C95.6 85 106 74.6 106 61.5c0-12-9-22-20.8-23.5" fill="#00c4d4" stroke="none" transform="scale(0.14)"/><path d="M7 3v5M4.5 5.5L7 3l2.5 2.5" fill="none" stroke="#00c4d4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Or upload your file here
           </a>
@@ -3461,30 +3693,32 @@ const PHASE_META = {
   '1':  { title: 'UI Batch MVP', tag: 'In flight',
           desc: 'Self-serve file enrichment with FullContact data. Customer uploads a CSV, maps fields, confirms, and gets back an enriched file. GTM-validated +15–20% client opportunity.',
           newFeatures: [
-            { title: 'UI Batch flow', where: 'Sidebar → File Enrichment', detail: 'Upload → Map → Confirm → Reports — the foundational self-serve experience.' }
+            { title: 'UI Batch flow', where: 'Sidebar → Enrichment', detail: 'Upload → Map → Confirm → Reports — the foundational self-serve experience.' }
           ],
           updates: [] },
   '1B': { title: 'Self-serve credit purchase', tag: 'Trailing MVP · Months 0–2',
           desc: 'Add a self-serve checkout so customers can purchase additional matches without contacting Sales. Same UI Batch flow + a "Buy More Matches" path with stored payment method.',
           newFeatures: [
-            { title: 'Credits & Billing page', where: 'Sidebar → File Enrichment → Credits & Billing', detail: 'Match balance, MTD spend, and full purchase history with downloadable receipts.' },
+            { title: 'Credits & Billing page', where: 'Sidebar → Enrichment → Credits & Billing', detail: 'Match balance, MTD spend, and full purchase history with downloadable receipts.' },
             { title: '"Buy More" pill in topbar', where: 'Top right of every screen', detail: 'One-click access to the purchase modal from anywhere.' },
             { title: 'Payment method block in upgrade modal', where: 'Confirm screen → "upgrade plan" link', detail: 'Card on file (Visa •••• 4242), update link, real-time charge button.' },
             { title: 'Inline charge receipt', where: 'After purchase confirms', detail: 'Shows charged amount, matches added, and receipt-emailed status.' }
           ],
           updates: [
-            { title: 'Upgrade modal flow', where: 'Sidebar → File Enrichment', detail: 'Was a Sales handoff (email account team). Now charges card on file and adds matches in real time.' }
+            { title: 'Upgrade modal flow', where: 'Sidebar → Enrichment', detail: 'Was a Sales handoff (email account team). Now charges card on file and adds matches in real time.' }
           ] },
-  '2':  { title: 'Customer Recognition tag as input', tag: 'Months 2–5',
-          desc: 'Customers can pull a recent window of visitors from their Customer Recognition website tag and use that as the enrichment input — no CSV upload required. Removes file-prep friction and bridges existing tag traffic into enrichment.',
+  '2':  { title: 'Enrichment entry redesign + CR tag input', tag: 'Months 2–5',
+          desc: 'Enrichment now opens to a tile menu instead of the single upload screen. Four starting points: CSV upload, paste a list, pull from Customer Recognition tag, or enrich an individual identifier. Each branches into a focused flow appropriate to the input — removing prep friction and opening a fast lane for single-record lookups.',
           newFeatures: [
-            { title: '"Pull from Customer Recognition tag" option', where: 'File Enrichment → Upload screen', detail: 'A third entry path alongside Upload File and Paste List. Click to start the tag-import flow.' },
-            { title: 'Tag import screen', where: 'Upload → "Pull from Customer Recognition tag"', detail: 'Pick which deployed tag (if multiple), choose a date window, see a live visitor-count estimate.' },
+            { title: 'Enrichment tile menu', where: 'Sidebar → Enrichment', detail: 'New entry screen with four tiles: Upload a CSV, Paste a list, Pull from CR tag, and Enrich an individual identifier. Replaces the previous hero/upload landing in Phase 2+.' },
+            { title: 'Individual identifier quick lookup', where: 'Enrichment menu → Enrich an individual identifier', detail: 'Single-record lookup for a single email / phone / MAID / social URL. Inline enriched profile, no Reports entry — built for sales-led demos and one-off investigation.' },
+            { title: '"Pull from Customer Recognition tag" tile', where: 'Enrichment menu', detail: 'Top-level entry path into the tag-import flow (no longer buried in the upload screen).' },
+            { title: 'Tag import screen', where: 'Enrichment menu → "Pull from CR tag"', detail: 'Pick which deployed tag (if multiple), choose a date window, see a live visitor-count estimate.' },
             { title: 'Date-range presets', where: 'Tag import screen', detail: 'Last 7 / 14 / 30 / 90 days, or a custom range — bounded by the customer\'s tag retention window.' },
             { title: 'Tag-source stamp on reports', where: 'Reports list', detail: 'Tag-sourced enrichments are labeled "From: CR tag · {N} days" so they\'re distinguishable from file uploads.' }
           ],
           updates: [
-            { title: 'File Enrichment upload screen', where: 'Sidebar → File Enrichment', detail: 'Adds a third input mechanism — Customer Recognition tag — alongside the existing CSV upload and paste-list options.' }
+            { title: 'Upload screen', where: 'Enrichment menu → Upload a CSV', detail: 'Now focused exclusively on CSV — paste-list link and CR tag option are promoted to top-level tiles in the menu.' }
           ] },
   '3':  { title: 'FullContact Dataset Expansion', tag: 'Months 5–9',
           desc: 'Insight bundles selectable as add-ons during enrichment. Same flow, more data per match. ARPU lift on the Phase 1 base.',
@@ -3494,7 +3728,7 @@ const PHASE_META = {
             { title: 'Combined-CPM pricing rollup', where: 'Below selector', detail: 'Live total CPM as bundles are toggled, plus estimated total cost for the file.' }
           ],
           updates: [
-            { title: 'File Enrichment confirm step', where: 'Sidebar → File Enrichment', detail: 'Customer can now choose which datasets to apply per file, instead of fixed contract bundles.' }
+            { title: 'Enrichment confirm step', where: 'Sidebar → Enrichment', detail: 'Customer can now choose which datasets to apply per file, instead of fixed contract bundles.' }
           ] },
   '4':  { title: 'First 3rd-Party Vendors', tag: 'Months 9–15',
           desc: '1–2 strategic vendor integrations alongside FullContact data. Royalty accounting handled in the back end (not surfaced to customers). Net-new datasets unlock new use cases.',
@@ -3504,7 +3738,7 @@ const PHASE_META = {
             { title: 'Back-end royalty tracking', where: 'Internal accounting (not customer-facing)', detail: 'Cards note that vendor royalty is tracked automatically; the actual split percentages are NOT shown to end users. All vendor remittance is handled internally as part of FullContact billing.' }
           ],
           updates: [
-            { title: 'File Enrichment dataset selector', where: 'Sidebar → File Enrichment', detail: '3rd-party vendor cards now appear alongside FullContact bundles, with vendor branding. Royalty owed to vendors is tracked in back-end billing — not surfaced to customers.' }
+            { title: 'Enrichment dataset selector', where: 'Sidebar → Enrichment', detail: '3rd-party vendor cards now appear alongside FullContact bundles, with vendor branding. Royalty owed to vendors is tracked in back-end billing — not surfaced to customers.' }
           ] },
   '5':  { title: 'Marketplace Catalog', tag: 'Months 15–23',
           desc: 'Dedicated browse experience: customers search and filter datasets across vendors. Vendor self-onboarding so the catalog grows without FullContact in the loop.',
@@ -3567,13 +3801,19 @@ function setPhase(phase) {
   // Apply visibility rules to all phase-aware elements
   applyPhaseVisibility();
 
-  // If current screen is now phase-locked, snap back to upload
+  // If current screen is now phase-locked, snap back to the right entry point
   const screenPhaseGate = {
-    credits: '1B', 'tag-import': '2', marketplace: '5', api: '6', workflows: '7'
+    credits: '1B', 'tag-import': '2', marketplace: '5', api: '6', workflows: '7',
+    'enrich-menu': '2', 'individual': '2'
   };
   if (screenPhaseGate[currentScreen] &&
       PHASE_ORDER[phase] < PHASE_ORDER[screenPhaseGate[currentScreen]]) {
-    navigate('upload');
+    navigateEnrichEntry();
+  }
+
+  // Phase 2+ skips the legacy landing — if user lands here from P1, route to the menu
+  if (PHASE_ORDER[phase] >= PHASE_ORDER['2'] && currentScreen === 'landing') {
+    navigate('enrich-menu');
   }
 
   // Re-render dynamic views that depend on phase
@@ -3733,6 +3973,15 @@ const downloadSvg = '<svg viewBox="0 0 18 18"><path d="M9 3v9M5 9l4 4 4-4" fill=
 const trashSvg = '<svg viewBox="0 0 18 18"><path d="M3 5h12M7 5V3h4v2M5 5v10h8V5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><line x1="7.5" y1="8" x2="7.5" y2="12" stroke="currentColor" stroke-width="1.2"/><line x1="10.5" y1="8" x2="10.5" y2="12" stroke="currentColor" stroke-width="1.2"/></svg>';
 
 // ===== Navigation =====
+function navigateEnrichEntry() {
+  // Phase 2+ routes through the tile menu; Phase 1 / 1B preserves the original upload landing
+  if (PHASE_ORDER[activePhase] >= PHASE_ORDER['2']) {
+    navigate('enrich-menu');
+  } else {
+    navigate('upload');
+  }
+}
+
 function navigate(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('screen-' + screen);
@@ -3741,7 +3990,7 @@ function navigate(screen) {
   // Update topbar text
   const topLeft = document.getElementById('topbarLeft');
   if (screen === 'landing') {
-    topLeft.textContent = 'File Enrichment';
+    topLeft.textContent = 'Enrichment';
   } else {
     topLeft.textContent = '';
   }
@@ -5046,6 +5295,55 @@ function showScopeToast(label) {
   window._scopeToastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
 }
 
+// ===== Individual identifier lookup (Phase 2+) =====
+function updateIndDetected() {
+  const v = (document.getElementById('indInput').value || '').trim();
+  const wrap = document.getElementById('indDetected');
+  const typeEl = document.getElementById('indDetectedType');
+  if (!v) {
+    wrap.classList.add('empty');
+    typeEl.textContent = '—';
+    return;
+  }
+  wrap.classList.remove('empty');
+  let detected = 'Unknown';
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) detected = 'Email';
+  else if (/^\+?[\d\s\-().]{7,}$/.test(v) && (v.match(/\d/g) || []).length >= 7) detected = 'Phone';
+  else if (/^https?:\/\//i.test(v) || /(linkedin|twitter|x|facebook|instagram)\.com/i.test(v)) detected = 'Social URL';
+  else if (/^[A-Fa-f0-9]{32}$/.test(v) ||
+           /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)) detected = 'MAID';
+  typeEl.textContent = detected;
+}
+
+function runIndividualLookup() {
+  const v = (document.getElementById('indInput').value || '').trim();
+  if (!v) return;
+  const profile = {
+    initials: 'JD',
+    name: 'Jane Doe',
+    meta: 'Denver, CO · Senior Product Manager · Acme Co.',
+    fields: [
+      ['Primary email', 'jane.doe@acme.com'],
+      ['Mobile phone', '+1 (303) 555-0142'],
+      ['Title', 'Senior Product Manager'],
+      ['Employer', 'Acme Co.'],
+      ['Location', 'Denver, CO'],
+      ['LinkedIn', 'linkedin.com/in/janedoe'],
+      ['Age range', '35–44'],
+      ['Household income', '$150K+'],
+      ['Education', 'Bachelor\'s'],
+      ['Match confidence', '0.94']
+    ]
+  };
+  document.getElementById('indAvatar').textContent = profile.initials;
+  document.getElementById('indName').textContent = profile.name;
+  document.getElementById('indMeta').textContent = profile.meta;
+  document.getElementById('indFields').innerHTML = profile.fields.map(([k, val]) =>
+    '<div><div class="ind-field-label">' + k + '</div><div class="ind-field-value">' + val + '</div></div>'
+  ).join('');
+  document.getElementById('indResult').classList.add('active');
+}
+
 // Capture-phase listener so we run before any other onclicks the element might have
 document.addEventListener('click', (e) => {
   const el = e.target.closest('[data-out-of-scope]');
@@ -5063,7 +5361,7 @@ renderMatchBalance();
 renderPurchaseHistory();
 setPhase('1');
 // Set initial topbar
-document.getElementById('topbarLeft').textContent = 'File Enrichment';
+document.getElementById('topbarLeft').textContent = 'Enrichment';
 
 // Simulate processing progress
 setInterval(() => {
