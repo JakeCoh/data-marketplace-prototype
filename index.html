@@ -1364,12 +1364,13 @@
   .hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: #8a9ab0; margin-bottom: 10px; font-weight: 600; }
   .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 24px; line-height: 1.2; }
   .hero-btn {
-    background: #00c4d4; color: #fff; border: none; padding: 12px 24px;
-    border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer;
+    background: #00c4d4; color: #fff; border: none; padding: 14px 30px;
+    border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer;
     display: inline-flex; align-items: center; gap: 8px; letter-spacing: 0.5px;
-    text-transform: uppercase; transition: background 0.2s;
+    text-transform: uppercase; transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 8px 22px -8px rgba(0,196,212,0.7);
   }
-  .hero-btn:hover { background: #00b0be; }
+  .hero-btn:hover { background: #00b0be; box-shadow: 0 12px 28px -10px rgba(0,196,212,0.85); transform: translateY(-1px); }
   .hero-btn svg { width: 14px; height: 14px; fill: #fff; }
   .hero-note { font-size: 11px; color: #6a7a8e; margin-top: 12px; }
   .hero-image {
@@ -1510,22 +1511,22 @@
   .btn-secondary {
     font-family: 'Lato', sans-serif;
     background: #fff; color: rgba(0,0,0,0.6); border: 1px solid rgba(34,36,38,0.15);
-    padding: .78571429em 1.5em; border-radius: .28571429rem;
+    padding: 0.85em 1.85em; border-radius: 999px;
     font-size: 14px; font-weight: 700; cursor: pointer;
     box-shadow: 0 0 0 1px rgba(34,36,38,0.15) inset;
-    transition: background .1s ease, color .1s ease, box-shadow .1s ease;
+    transition: background .1s ease, color .1s ease, box-shadow .15s ease;
   }
   .btn-secondary:hover { background: #f8f8f8; color: rgba(0,0,0,0.8); box-shadow: 0 0 0 1px rgba(34,36,38,0.35) inset; }
   .btn-primary {
     font-family: 'Lato', sans-serif;
     background: #00c4d4; color: #fff; border: none;
-    padding: .78571429em 1.5em; border-radius: .28571429rem;
+    padding: 0.85em 1.85em; border-radius: 999px;
     font-size: 14px; font-weight: 700; cursor: pointer;
-    box-shadow: 0 0 0 0 rgba(34,36,38,0.15) inset;
-    transition: background .1s ease, box-shadow .1s ease;
+    box-shadow: 0 6px 18px -8px rgba(0,196,212,0.55);
+    transition: background .1s ease, box-shadow .15s ease, transform .1s ease;
   }
-  .btn-primary:hover { background: #00b0be; }
-  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary:hover { background: #00b0be; box-shadow: 0 8px 22px -8px rgba(0,196,212,0.7); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
 
   /* ========== MAP FIELDS ========== */
   .map-page { padding: 28px 40px; }
@@ -1774,13 +1775,13 @@
   .lets-talk-btn {
     font-family: 'Lato', sans-serif;
     position: absolute; right: 40px; top: 28px; background: #fff;
-    border: 1px solid rgba(34,36,38,0.15); padding: .58928571em 1.125em;
-    border-radius: .28571429rem; font-size: 12.5px; cursor: pointer;
+    border: 1px solid rgba(34,36,38,0.15); padding: 0.7em 1.4em;
+    border-radius: 999px; font-size: 12.5px; cursor: pointer;
     display: flex; align-items: center; gap: 6px; font-weight: 700;
-    color: rgba(0,0,0,0.6); box-shadow: 0 0 0 1px rgba(34,36,38,0.15) inset;
-    transition: background .1s ease;
+    color: rgba(0,0,0,0.7); box-shadow: 0 0 0 1px rgba(34,36,38,0.15) inset;
+    transition: background .1s ease, box-shadow .15s ease;
   }
-  .lets-talk-btn:hover { background: #f8f8f8; color: rgba(0,0,0,0.8); }
+  .lets-talk-btn:hover { background: #f8f8f8; color: rgba(0,0,0,0.85); box-shadow: 0 0 0 1px rgba(34,36,38,0.3) inset; }
   .lets-talk-btn svg { width: 14px; height: 14px; fill: #1b2534; }
   .summary-section { margin-bottom: 28px; }
   .summary-section h3 {
@@ -2020,6 +2021,50 @@
   .dev-note::before {
     content: 'DEV:'; font-weight: 700; margin-right: 4px; color: #c49000;
   }
+
+  /* ========== Marketing-aligned brand tokens (staging) ========== */
+  /* Pulled from fullcontact.com hero/feature/CTA treatments — applied
+     selectively to narrative surfaces (hero, vendor apply, upsell modal). */
+
+  /* Heading split-emphasis. Two variants for contrast on different bgs:
+       .h-emph       — brand cyan, designed for dark navy bgs (hero)
+       .h-emph-deep  — deeper teal, designed for light/white bgs (modals, light sections) */
+  .h-emph { color: #00c4d4; }
+  .h-emph-deep { color: #00838f; }
+
+  .market-section-bg {
+    background: linear-gradient(180deg, #f0fcfd 0%, #e6f9fb 100%);
+    border-bottom: 1px solid #d4eef3;
+  }
+
+  /* Marketing-style step card — icon-on-cyan-rounded-square at top,
+     bold title, body, cyan "Learn more →" footer link. Applied as an
+     opt-in class so existing .step-card layouts stay untouched until
+     we wire icons. */
+  .step-card.market-card {
+    background: #fff;
+    border: 1px solid #d4eef3;
+    border-radius: 6px;
+    padding: 28px 24px 22px;
+    box-shadow: 0 2px 6px -2px rgba(15,24,37,0.06);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .step-card.market-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px -6px rgba(15,24,37,0.12);
+  }
+  .market-card-icon {
+    width: 44px; height: 44px; border-radius: 8px;
+    background: linear-gradient(135deg, #00c4d4 0%, #00a8b8 100%);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px -4px rgba(0,196,212,0.55);
+  }
+  .market-card-icon svg { width: 22px; height: 22px; fill: #fff; }
+
+  /* Phase banner: gentle marketing lift — descriptions read more like
+     value-prop copy, second half optionally gets cyan emphasis via .h-emph. */
+  .phase-banner-desc .h-emph { font-weight: 600; }
 </style>
 </head>
 <body>
@@ -2386,7 +2431,7 @@
     <div class="screen active" id="screen-landing">
       <div class="hero">
         <div class="hero-label">Enrichment</div>
-        <h1>Enrich Customer Records</h1>
+        <h1>Enrich <span class="h-emph">Customer Records</span></h1>
         <button class="hero-btn" onclick="navigateEnrichEntry()">
           UPLOAD YOUR FILE
           <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3152,7 +3197,7 @@
   <div class="vw">
     <div class="vw-header">
       <div>
-        <h2>Apply to become a vendor</h2>
+        <h2>Apply to <span class="h-emph-deep">become a vendor</span></h2>
         <div class="vw-sub">Submit a dataset for review — listings require FullContact approval before going live</div>
       </div>
       <button class="vw-close" onclick="closeVendorWizard()" title="Close">&times;</button>
@@ -3627,7 +3672,7 @@
 <div class="modal-overlay" id="upgradeModal">
   <div class="upgrade-modal">
     <div class="upgrade-modal-header">
-      <h2>Add Matches to Your Plan</h2>
+      <h2>Add Matches <span class="h-emph">to Your Plan</span></h2>
       <p>Purchase additional matches at your account's rate</p>
     </div>
     <div class="upgrade-modal-body">
