@@ -1877,6 +1877,14 @@
     border-top-color: #1b2534;
   }
   .match-info:hover .match-tooltip { display: block; }
+  /* Variant for tooltips near the top of the viewport (e.g. topbar) where opening upward would clip off-screen */
+  .match-info.match-info-below .match-tooltip {
+    bottom: auto; top: calc(100% + 8px);
+  }
+  .match-info.match-info-below .match-tooltip::after {
+    top: auto; bottom: 100%;
+    border-top-color: transparent; border-bottom-color: #1b2534;
+  }
   .confirm-estimate {
     background: #f0f7f8; border: 1px solid rgba(0,196,212,0.2);
     border-radius: .28571429rem; padding: 14px 18px; margin-top: 16px;
@@ -2380,6 +2388,10 @@
         <div class="mb-icon">M</div>
         <span>Matches:</span>
         <span class="mb-num" id="mbNum">8,200</span>
+        <span class="match-info match-info-below">
+          <span class="match-icon">i</span>
+          <span class="match-tooltip">Matches are allotted <strong>monthly</strong> and don't roll over — your balance resets when your next month's contract term begins.</span>
+        </span>
         <button class="mb-buy" data-phase-min="1B" onclick="openUpgradeModal()">Buy More</button>
       </div>
       <div class="user-email" data-out-of-scope="true" data-scope-label="User account dropdown" title="Outside prototype scope">jake@fullcontact.com</div>
@@ -2783,7 +2795,7 @@
               <span class="label">Available matches
                 <span class="match-info">
                   <span class="match-icon">i</span>
-                  <span class="match-tooltip">A <strong>match</strong> is our unit of usage. When you request data from us and we have something to share, that counts as a match. If we don't return data for a record, you won't be charged for it.</span>
+                  <span class="match-tooltip">A <strong>match</strong> is our unit of usage. When you request data from us and we have something to share, that counts as a match. If we don't return data for a record, you won't be charged for it. Matches are allotted <strong>monthly</strong> and expire when your next month's contract term begins.</span>
                 </span>
               :</span>
               <span class="value">8,200</span>
@@ -3685,7 +3697,12 @@
         <span class="uc-value highlight" id="upgradeCpm">$40.00</span>
       </div>
       <div class="upgrade-current">
-        <span class="uc-label">Available Matches</span>
+        <span class="uc-label">Available Matches
+          <span class="match-info">
+            <span class="match-icon">i</span>
+            <span class="match-tooltip">Matches are allotted <strong>monthly</strong> and don't roll over — your balance resets when your next month's contract term begins.</span>
+          </span>
+        </span>
         <span class="uc-value">8,200</span>
       </div>
       <div class="upgrade-current">
