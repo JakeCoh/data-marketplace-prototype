@@ -1982,6 +1982,7 @@
   .upgrade-current .uc-value.highlight { color: #00c4d4; }
   .upgrade-add { padding: 20px 0; }
   .upgrade-add-label { font-size: 14px; font-weight: 700; color: rgba(0,0,0,0.87); margin-bottom: 12px; }
+  .upgrade-add-note { font-size: 12px; color: rgba(0,0,0,0.55); margin: -6px 0 14px; line-height: 1.5; }
   .upgrade-stepper {
     display: flex; align-items: center; gap: 0; margin-bottom: 12px;
   }
@@ -3711,6 +3712,7 @@
       </div>
       <div class="upgrade-add">
         <div class="upgrade-add-label">Add Matches (in increments of 1,000)</div>
+        <div class="upgrade-add-note">These matches apply to your <strong>current contract month</strong> only — they expire when next month's term begins and don't roll over.</div>
         <div class="upgrade-stepper">
           <button onclick="adjustMatches(-1)" id="matchMinus">&#x2212;</button>
           <div class="stepper-value" id="matchCount">1,000</div>
@@ -3751,7 +3753,7 @@
           <div class="receipt-success" id="receiptSuccess" style="display:none;" data-phase-min="1B">
             <div class="receipt-success-icon">&#x2713;</div>
             <div class="receipt-success-title" id="receiptTitle">Charged $40.00 to •••• 4242</div>
-            <div class="receipt-success-meta" id="receiptMeta">1,000 matches added to your balance. Receipt emailed.</div>
+            <div class="receipt-success-meta" id="receiptMeta">1,000 matches added to your balance for this contract month. Receipt emailed.</div>
           </div>
         </div>
       </div>
@@ -5019,7 +5021,7 @@ function confirmUpgrade() {
 
   // Show receipt inline, then close after a beat
   document.getElementById('receiptTitle').textContent = 'Charged $' + cost.toFixed(2) + ' to •••• 4242';
-  document.getElementById('receiptMeta').textContent = count.toLocaleString() + ' matches added to your balance. Receipt emailed.';
+  document.getElementById('receiptMeta').textContent = count.toLocaleString() + ' matches added to your balance for this contract month. Receipt emailed.';
   document.getElementById('receiptSuccess').style.display = 'block';
   document.getElementById('upgradePrimaryBtn').disabled = true;
 
