@@ -1768,6 +1768,86 @@
   .pg-btn.active { background: #00c4d4; color: #fff; }
   .pg-btn.nav { font-size: 16px; color: rgba(0,0,0,0.3); }
 
+  /* ========== ENRICHMENT SETTINGS ========== */
+  .settings-page { padding: 28px 40px; max-width: 760px; }
+  .settings-page h2 { font-size: 20px; font-weight: 700; color: #1b2534; margin-bottom: 6px; }
+  .settings-page .settings-intro {
+    font-size: 13.5px; color: rgba(0,0,0,0.6); line-height: 1.5; margin-bottom: 28px;
+  }
+  .settings-page .settings-intro a { color: #00c4d4; text-decoration: none; }
+  .settings-section {
+    background: #fff; border: 1px solid rgba(34,36,38,0.12); border-radius: .28571429rem;
+    padding: 20px 24px; margin-bottom: 18px;
+  }
+  .settings-section-title {
+    font-size: 15px; font-weight: 700; color: rgba(0,0,0,0.87);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .settings-section-desc {
+    font-size: 12.5px; color: rgba(0,0,0,0.55); line-height: 1.5; margin-bottom: 16px;
+  }
+  .settings-row {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 24px; padding: 12px 0; border-top: 1px solid rgba(34,36,38,0.08);
+  }
+  .settings-row:first-of-type { border-top: none; padding-top: 0; }
+  .settings-row-label { flex: 1; }
+  .settings-row-label .srl-title { font-size: 13.5px; font-weight: 700; color: rgba(0,0,0,0.87); margin-bottom: 2px; }
+  .settings-row-label .srl-desc { font-size: 12.5px; color: rgba(0,0,0,0.55); line-height: 1.45; }
+  .settings-row-control { flex-shrink: 0; min-width: 160px; text-align: right; }
+  .settings-select {
+    font-family: 'Lato', sans-serif; padding: .58928571em 1.9em .58928571em .9em;
+    border: 1px solid rgba(34,36,38,0.15); border-radius: .28571429rem;
+    font-size: 13px; background: #fff; color: rgba(0,0,0,0.87);
+    -webkit-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+    cursor: pointer; width: 100%;
+  }
+  .settings-number {
+    font-family: 'Lato', sans-serif; padding: .58928571em .9em;
+    border: 1px solid rgba(34,36,38,0.15); border-radius: .28571429rem;
+    font-size: 13px; color: rgba(0,0,0,0.87); width: 100px; text-align: right;
+  }
+  .settings-url {
+    font-family: 'Lato', sans-serif; padding: .58928571em .9em;
+    border: 1px solid rgba(34,36,38,0.15); border-radius: .28571429rem;
+    font-size: 13px; color: rgba(0,0,0,0.87); width: 100%;
+  }
+  .settings-toggle { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+  .settings-toggle input { opacity: 0; width: 0; height: 0; }
+  .settings-toggle .toggle-track {
+    position: absolute; cursor: pointer; inset: 0; background: #d4d4d5;
+    border-radius: 22px; transition: background .15s ease;
+  }
+  .settings-toggle .toggle-track::before {
+    content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px;
+    background: #fff; border-radius: 50%; transition: transform .15s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .settings-toggle input:checked + .toggle-track { background: #00c4d4; }
+  .settings-toggle input:checked + .toggle-track::before { transform: translateX(18px); }
+  .settings-bundle-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; margin-top: 4px;
+  }
+  .settings-bundle-row {
+    display: flex; align-items: center; gap: 9px; font-size: 13px; color: rgba(0,0,0,0.8);
+    padding: 4px 0;
+  }
+  .settings-bundle-row input[type="checkbox"] {
+    -webkit-appearance: none; appearance: none; width: 17px; height: 17px;
+    border: 1px solid #d4d4d5; border-radius: .21428571rem; cursor: pointer;
+    position: relative; background: #fff; flex-shrink: 0;
+    transition: border .1s ease, background .1s ease;
+  }
+  .settings-bundle-row input[type="checkbox"]:checked { background: #00c4d4; border-color: #00c4d4; }
+  .settings-bundle-row input[type="checkbox"]:checked::after {
+    content: ''; position: absolute; top: 2px; left: 5.5px;
+    width: 5.5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .settings-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
+
   /* ========== DATA QUALITY SUMMARY ========== */
   .summary-page { padding: 28px 40px; position: relative; }
   .summary-page h2 { font-size: 20px; font-weight: 700; color: #1b2534; margin-bottom: 4px; }
@@ -2283,6 +2363,11 @@
     <div class="sidebar-item sub" id="nav-reports" onclick="navigate('reports')">
       <div class="si-icon"><svg viewBox="0 0 16 16"><path d="M3 1h7l3 3v11H3V1zm7 0v3h3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></div>
       <span>Reports</span>
+    </div>
+    <!-- Enrichment Settings sub -->
+    <div class="sidebar-item sub" id="nav-enrich-settings" onclick="navigate('enrich-settings')">
+      <div class="si-icon"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+      <span>Enrichment Settings</span>
     </div>
     <!-- Credits & Billing (Phase 1B+) -->
     <div class="sidebar-item sub" id="nav-credits" data-phase-min="1B" onclick="navigate('credits')">
@@ -2915,6 +3000,149 @@
           <button class="pg-btn">4</button>
           <button class="pg-btn">5</button>
           <button class="pg-btn nav">&rsaquo;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENRICHMENT SETTINGS -->
+    <div class="screen" id="screen-enrich-settings">
+      <div class="settings-page">
+        <h2>Enrichment Settings</h2>
+        <p class="settings-intro">Configure how FullContact enriches every file processed through this tool.</p>
+
+        <!-- Hashed Email Type Filter -->
+        <div class="settings-section">
+          <div class="settings-section-title">Hashed Email Type Filter <span class="dev-note" style="margin-left:6px;">Top priority — roll this setting out first, ahead of the rest of this page</span></div>
+          <div class="settings-section-desc">Restrict returned hashed emails to a single hash type. Maps to the API's <code>hemType</code> property.</div>
+          <div class="settings-row" style="border-top:none;padding-top:0;">
+            <div class="settings-row-label">
+              <div class="srl-title">Hash type</div>
+              <div class="srl-desc">Choose the hash algorithm for returned emails, or return all types.</div>
+            </div>
+            <div class="settings-row-control">
+              <select class="settings-select" id="setHemType">
+                <option value="">All types (default)</option>
+                <option value="md5">MD5</option>
+                <option value="sha1">SHA1</option>
+                <option value="sha256">SHA256</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confidence Level -->
+        <div class="settings-section">
+          <div class="settings-section-title">Confidence Level</div>
+          <div class="settings-section-desc">Adjusts the match-quality threshold required before data is returned. Maps to <code>confidenceLevel</code>.</div>
+          <div class="settings-row" style="border-top:none;padding-top:0;">
+            <div class="settings-row-label">
+              <div class="srl-title">Minimum confidence</div>
+              <div class="srl-desc">Higher confidence returns fewer, more certain matches.</div>
+            </div>
+            <div class="settings-row-control">
+              <select class="settings-select" id="setConfidenceLevel">
+                <option value="LOW">Low</option>
+                <option value="MED">Medium</option>
+                <option value="HIGH" selected>High (default)</option>
+                <option value="MAX">Max</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insights Bundles -->
+        <div class="settings-section">
+          <div class="settings-section-title">Insights Bundles</div>
+          <div class="settings-section-desc">Choose which Insights Bundles to enrich against. Maps to <code>dataFilter</code> (<code>dataFilterLogic</code> is fixed to OR — data is returned if any selected bundle matches). Leave all unchecked to receive your contract's default bundle.</div>
+          <div class="settings-bundle-grid">
+            <label class="settings-bundle-row"><input type="checkbox" value="individual_plus_insights"><span>Individual + Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="individual"><span>Individual</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="demographic_insights"><span>Demographic Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="automotive_insights"><span>Automotive Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="cpg_insights"><span>CPG Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="education_insights"><span>Education Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="hem_amplification"><span>HEM Amplification</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="employment_history"><span>Employment History</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="energy_and_utilities_insights"><span>Energy &amp; Utilities Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="financial_services_and_insurance_insights"><span>Financial Services &amp; Insurance Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="health_insights"><span>Health Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="media_and_entertainment_insights"><span>Media &amp; Entertainment Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="maid_amplification"><span>MAID Amplification</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="non_profit_insights"><span>Non-Profit Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="professional"><span>Professional</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="quick_serve_and_restaurants_insights"><span>Quick Serve &amp; Restaurants Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="resolve_crm"><span>Resolve CRM</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="retail_insights"><span>Retail Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="social"><span>Social</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="technology_and_communications_insights"><span>Technology &amp; Communications Insights</span></label>
+            <label class="settings-bundle-row"><input type="checkbox" value="travel_and_hospitality_insights"><span>Travel &amp; Hospitality Insights</span></label>
+          </div>
+        </div>
+
+        <!-- Match Behavior -->
+        <div class="settings-section">
+          <div class="settings-section-title">Match Behavior</div>
+          <div class="settings-section-desc">Fine-tune how aggressively FullContact infers and returns matched data.</div>
+          <div class="settings-row" style="border-top:none;padding-top:0;">
+            <div class="settings-row-label">
+              <div class="srl-title">Enable inference</div>
+              <div class="srl-desc">Apply inference algorithms to fill in enrichment data beyond exact matches. Maps to <code>infer</code>.</div>
+            </div>
+            <div class="settings-row-control">
+              <label class="settings-toggle"><input type="checkbox" checked><span class="toggle-track"></span></label>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <div class="srl-title">Minimum fields required</div>
+              <div class="srl-desc">Minimum number of fields FullContact must return for a record to count as a successful match. Maps to <code>minFields</code>.</div>
+            </div>
+            <div class="settings-row-control">
+              <input type="number" class="settings-number" value="1" min="1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Limits -->
+        <div class="settings-section">
+          <div class="settings-section-title">Output Limits</div>
+          <div class="settings-section-desc">Cap how many of certain fields are returned per matched record.</div>
+          <div class="settings-row" style="border-top:none;padding-top:0;">
+            <div class="settings-row-label">
+              <div class="srl-title">Max hashed emails</div>
+              <div class="srl-desc">Maximum number of hashed emails returned per record. Maps to <code>maxEmails</code>.</div>
+            </div>
+            <div class="settings-row-control">
+              <input type="number" class="settings-number" value="5" min="1">
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-row-label">
+              <div class="srl-title">Max Mobile Ad IDs</div>
+              <div class="srl-desc">Maximum number of Mobile Ad IDs (MAIDs) returned per record. Maps to <code>maxMaids</code>.</div>
+            </div>
+            <div class="settings-row-control">
+              <input type="number" class="settings-number" value="5" min="1">
+            </div>
+          </div>
+        </div>
+
+        <!-- Webhook Delivery -->
+        <div class="settings-section">
+          <div class="settings-section-title">Webhook Delivery <span class="dev-note" style="margin-left:6px;">Engineering to discuss whether this makes sense to bring over from API filters</span></div>
+          <div class="settings-section-desc">Optionally receive a callback when a batch job's enrichment completes, in addition to the in-app report. Maps to <code>webhookUrl</code>.</div>
+          <div class="settings-row" style="border-top:none;padding-top:0;flex-direction:column;align-items:stretch;">
+            <div class="settings-row-label">
+              <div class="srl-title">Webhook URL</div>
+              <div class="srl-desc">We'll POST job results here when processing finishes.</div>
+            </div>
+            <input type="url" class="settings-url" style="margin-top:10px;" placeholder="https://your-domain.com/webhooks/fullcontact">
+          </div>
+        </div>
+
+        <div class="settings-footer">
+          <button class="btn-secondary" onclick="navigate('upload')">Cancel</button>
+          <button class="btn-primary" onclick="alert('Prototype only — in production this saves settings and applies them to future enrichment jobs.')">Save Settings</button>
         </div>
       </div>
     </div>
@@ -4103,6 +4331,9 @@ function navigate(screen) {
     document.getElementById('nav-enrich').classList.add('active');
     if (screen === 'reports') {
       document.getElementById('nav-reports').classList.add('active');
+    }
+    if (screen === 'enrich-settings') {
+      document.getElementById('nav-enrich-settings').classList.add('active');
     }
   }
 
