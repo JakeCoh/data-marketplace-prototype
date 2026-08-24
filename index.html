@@ -1607,6 +1607,11 @@
     width: 5.5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
+  .agree-row input[type="checkbox"].given { cursor: default; }
+  .agree-row input[type="checkbox"].given:checked {
+    background: #eef1f4; border-color: #9aa4b2;
+  }
+  .agree-row input[type="checkbox"].given:checked::after { border-color: #7a8494; }
 
   /* ========== MODALS ========== */
   .modal-overlay {
@@ -1724,6 +1729,8 @@
   .status-text.st-queued { color: #999; }
   .status-text.st-completed { color: #2a9d5c; }
   .status-text.st-failed { color: #d44; }
+  .status-text.st-review { color: #00c4d4; }
+  .status-text.st-declined { color: #999; }
   .progress-bar {
     width: 80px; height: 4px; background: rgba(0,0,0,0.1);
     border-radius: .28571429rem; overflow: hidden;
@@ -2463,6 +2470,15 @@
       <span>Privacy Preferences</span>
     </div>
   </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Reference</div>
+    <!-- Old Confirm & Review (kept for comparison — not part of the live flow) -->
+    <div class="sidebar-item" id="nav-old-confirm" onclick="navigate('confirm')" title="Old pre-run estimate screen, kept for reference — not part of the live flow">
+      <div class="si-icon"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 4.5v4l2.8 1.6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span>Old Confirm &amp; Review</span>
+    </div>
+  </div>
 </nav>
 
 <!-- Main -->
@@ -2611,6 +2627,10 @@
             <svg viewBox="0 0 14 14"><path d="M7 2v8M3 7l4 4 4-4" fill="none" stroke="#00c4d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="2" y1="12" x2="12" y2="12" stroke="#00c4d4" stroke-width="1.5" stroke-linecap="round"/></svg>
             Download .CSV Template
           </a>
+        </div>
+        <div class="agree-row" style="margin-top:20px;">
+          <input type="checkbox" id="uploadDataConsent">
+          <label for="uploadDataConsent">I acknowledge that my data will be processed by FullContact per the <a href="https://www.fullcontact.com/privacy/services-agreement/" target="_blank" style="color:#00c4d4;">services agreement</a> and I agree to delete data when required by the <a href="https://www.fullcontact.com/privacy/services-agreement/#7(c)" target="_blank" style="color:#00c4d4;">data deletion policy</a></label>
         </div>
 
         <!-- Phase 2+: Pull from Customer Recognition tag (P1 only — Phase 2+ accesses via tile menu) -->
@@ -2856,7 +2876,7 @@
         </table>
         <div class="btn-row" style="margin-top:24px">
           <button class="btn-secondary" onclick="navigate('review')">Back</button>
-          <button class="btn-primary" onclick="navigate('confirm')">Review & Confirm</button>
+          <button class="btn-primary" onclick="runEnrichment()">Run Enrichment</button>
         </div>
       </div>
     </div>
@@ -3354,78 +3374,59 @@
 
     <!-- DATA QUALITY SUMMARY -->
     <div class="screen" id="screen-summary">
-      <div class="summary-page">
-        <h2>Data Quality Summary</h2>
-        <div class="file-ref">File Name:- <span id="summaryFileName">denverOfficeTest.csv</span> &nbsp;<a href="#" onclick="event.preventDefault();document.getElementById('outputFieldsModal').classList.add('active')" style="color:#00c4d4;font-size:13px;text-decoration:none;">View output fields</a></div>
-        <button class="lets-talk-btn" onclick="alert('Contact Sales feature')">
-          <svg viewBox="0 0 16 16"><path d="M14 1H2c-.6 0-1 .4-1 1v9c0 .6.4 1 1 1h3v3l4-3h5c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1z"/></svg>
-          LET'S TALK
-        </button>
-
-        <div class="summary-section">
-          <h3>FINAL OUTCOME</h3>
-          <div class="outcome-grid">
-            <div class="outcome-card">
-              <div class="oc-label">DISTINCT RECORDS</div>
-              <div class="oc-value">847</div>
+      <div class="confirm-page">
+        <h2>Review & Confirm Usage</h2>
+        <p style="font-size:13.5px;color:rgba(0,0,0,0.6);margin-top:-14px;max-width:560px;">
+          <span id="rcuFileName">campaign_list.csv</span> finished processing. Here's what it actually used — accept to charge your account and download, or decline to discard it at no charge.
+        </p>
+        <div class="confirm-card">
+          <h3>Mapped Fields:</h3>
+          <div class="mapped-list" id="mappedFieldsListNew">HEM Email, Phone, City, Address, Zip Code</div>
+          <div style="margin-top:8px;">
+            <a href="#" onclick="event.preventDefault();document.getElementById('outputFieldsModal').classList.add('active')" style="color:#00c4d4;font-size:13px;text-decoration:none;">View output fields for your account</a>
+          </div>
+          <div class="confirm-stats">
+            <div class="confirm-stat">
+              <span class="label">Records processed:</span>
+              <span class="value">10,000</span>
             </div>
-            <div class="outcome-card">
-              <div class="oc-label">DUPLICATE RATE</div>
-              <div class="oc-value">12.3%</div>
-              <div class="oc-warning">&#x26A0; High duplication</div>
+            <div class="confirm-stat">
+              <span class="label">Matches used
+                <span class="match-info">
+                  <span class="match-icon">i</span>
+                  <span class="match-tooltip">A <strong>match</strong> is our unit of usage. When we returned data for a record, that counts as a match. This is the actual number used by this job, not an estimate.</span>
+                </span>
+              :</span>
+              <span class="value" id="rcuMatchesUsed">8,412</span>
+            </div>
+            <div class="confirm-stat">
+              <span class="label">Match rate:</span>
+              <span class="value">84.1%</span>
+            </div>
+            <div class="confirm-stat">
+              <span class="label">Mapped columns:</span>
+              <span class="value" id="rcuMappedCount">8 of 11</span>
             </div>
           </div>
         </div>
-
-        <div class="summary-section">
-          <h3>DATA QUALITY & MATCHING</h3>
-          <div class="quality-grid">
-            <div class="quality-card">
-              <div class="qc-label">Match Rate</div>
-              <div class="qc-value">87.2%</div>
-              <div class="qc-badge">Good</div>
-            </div>
-            <div class="quality-card">
-              <div class="qc-label">Resolve Rate</div>
-              <div class="qc-value">91.5%</div>
-              <div class="qc-badge">Good</div>
-            </div>
-            <div class="quality-card">
-              <div class="qc-label">Enrichable Records</div>
-              <div class="qc-value">739/847</div>
-            </div>
-            <div class="quality-card">
-              <div class="qc-label">Resolvable Records</div>
-              <div class="qc-value">775/847</div>
-            </div>
-          </div>
+        <div class="warning-banner" id="rcuBalanceBanner">
+          Your balance was <strong>8,200 matches</strong> — this job used <strong id="rcuShortfallText">212 more</strong> than you have available. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Add matches</a> to accept and download.
         </div>
-
-        <div class="summary-section">
-          <h3>INPUT SUMMARY</h3>
-          <div class="input-grid">
-            <div class="quality-card">
-              <div class="qc-label">Input Records:</div>
-              <div class="qc-value">965</div>
-            </div>
-            <div class="quality-card">
-              <div class="qc-label">Sampled Records:</div>
-              <div class="qc-value">847</div>
-            </div>
-          </div>
+        <div class="agree-row">
+          <input type="checkbox" class="given" disabled checked>
+          <label>Data processing consent — given at upload, before the file ran <span style="color:rgba(0,0,0,0.4);">(services agreement)</span></label>
         </div>
-
-        <div class="btn-row" style="margin-top:16px;justify-content:space-between;">
-          <button class="btn-secondary" onclick="navigate('reports')">Back to Reports</button>
-          <div style="display:flex;gap:12px;">
-            <button class="btn-primary" onclick="showDownloadNote(document.getElementById('summaryFileName').textContent)" style="background:#21ba45;">
-              <span style="display:inline-flex;align-items:center;gap:6px;">
-                <svg width="16" height="16" viewBox="0 0 18 18" fill="#fff"><path d="M9 3v9M5 9l4 4 4-4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="15" x2="15" y2="15" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
-                Download Enriched File
-              </span>
-            </button>
-            <button class="btn-primary" onclick="navigate('upload')">New Enrichment</button>
-          </div>
+        <div class="agree-row" style="margin-top:6px;">
+          <input type="checkbox" class="given" disabled checked>
+          <label>Data deletion agreement — given at upload, before the file ran <span style="color:rgba(0,0,0,0.4);">(data deletion policy)</span></label>
+        </div>
+        <div class="agree-row" style="margin-top:6px;">
+          <input type="checkbox" id="agreeBilling" onchange="updateRcuAcceptGating()">
+          <label for="agreeBilling">I authorize charging <strong id="rcuBillingCount">8,412</strong> matches to my account for this job</label>
+        </div>
+        <div class="btn-row">
+          <button class="btn-secondary" style="color:#d44;border-color:rgba(221,68,68,0.4);" onclick="declineEnrichment()">Decline & Discard</button>
+          <button class="btn-primary" id="acceptBtn" onclick="acceptEnrichment()" disabled>Accept & Download</button>
         </div>
       </div>
     </div>
@@ -3904,7 +3905,7 @@
     <p style="font-size:14px;color:rgba(0,0,0,0.6);margin-bottom:20px;">Downloading <strong><span id="downloadNoteFile2"></span></strong></p>
     <div class="modal-btns">
       <button class="btn-secondary" onclick="document.getElementById('downloadNoteModal').classList.remove('active')">Close</button>
-      <button class="btn-primary" onclick="document.getElementById('downloadNoteModal').classList.remove('active');navigate('summary');document.getElementById('summaryFileName').textContent=document.getElementById('downloadNoteFile').textContent">View Summary</button>
+      <button class="btn-primary" onclick="document.getElementById('downloadNoteModal').classList.remove('active');navigate('reports')">Back to Reports</button>
     </div>
   </div>
 </div>
@@ -4357,6 +4358,8 @@ function navigate(screen) {
     // Recheck consents in case the user toggled them on a previous visit
     if (typeof checkBothConsents === 'function') checkBothConsents();
   }
+  if (screen === 'summary') updateReviewConfirmScreen();
+
   // Refresh phase-driven screens on entry
   if (screen === 'credits') { renderMatchBalance(); renderPurchaseHistory(); }
   if (screen === 'marketplace') renderMarketplaceCatalog();
@@ -4607,6 +4610,7 @@ function cancelConfirm() {
 function handleFileSelect(input) {
   const file = input.files[0];
   if (!file) return;
+  if (!document.getElementById('uploadDataConsent').checked) { alert('Please acknowledge the data processing and deletion policy before uploading.'); return; }
   if (!file.name.endsWith('.csv')) { alert('Please upload a CSV file only.'); return; }
   if (file.size > 1024 * 1024 * 1024) { alert('File size exceeds 1GB limit.'); return; }
   clearTagFlow();
@@ -4619,6 +4623,7 @@ function handleDrop(event) {
   event.currentTarget.classList.remove('dragover');
   const file = event.dataTransfer.files[0];
   if (!file) return;
+  if (!document.getElementById('uploadDataConsent').checked) { alert('Please acknowledge the data processing and deletion policy before uploading.'); return; }
   if (!file.name.endsWith('.csv')) { alert('Please upload a CSV file only.'); return; }
   clearTagFlow();
   uploadedFile = file;
@@ -4665,6 +4670,7 @@ function toggleContinueBtn() {
 function handlePasteContinue() {
   const text = document.getElementById('pasteArea').value.trim();
   if (!text) return;
+  if (!document.getElementById('uploadDataConsent').checked) { alert('Please acknowledge the data processing and deletion policy before continuing.'); return; }
   const lines = text.split('\n').filter(l => l.trim());
   clearTagFlow();
   uploadedFile = { name: 'pasted_list.csv', size: text.length };
@@ -5266,6 +5272,8 @@ function confirmUpgrade() {
   if (warnBanner && matchBalance >= 8850) warnBanner.style.display = 'none';
   // Tag flow: re-render the overflow banner now that balance has changed
   if (tagFlowContext && currentScreen === 'confirm') setupConfirmFromTag();
+  // Review & Confirm (post-run): re-check shortfall/gating now that balance has changed
+  if (currentScreen === 'summary') { updateRcuBalanceBanner(); updateRcuAcceptGating(); }
 
   setTimeout(() => closeUpgradeModal(), 1800);
 }
@@ -5294,6 +5302,75 @@ function startEnrichment() {
   }, 3000);
 }
 
+// ===== Review & Confirm (post-run — actual usage) =====
+const jobMatchesUsed = 8412;
+let reviewJobIndex = 0;
+
+function runEnrichment() {
+  document.getElementById('processingModal').classList.add('active');
+  setTimeout(() => {
+    document.getElementById('processingModal').classList.remove('active');
+    sampleReports.unshift({
+      name: uploadedFile ? uploadedFile.name : 'campaign_list.csv',
+      date: new Date().toLocaleDateString('en-US', {month:'2-digit',day:'2-digit',year:'numeric'}),
+      status: 'awaiting_review', progress: 100,
+      source: uploadedFile && uploadedFile.source === 'tag' ? 'tag' : 'file',
+      tagDays: uploadedFile && uploadedFile.days
+    });
+    reviewJobIndex = 0;
+    renderReports();
+    navigate('summary');
+  }, 3000);
+}
+
+function updateReviewConfirmScreen() {
+  const job = sampleReports[reviewJobIndex];
+  const name = job ? job.name : (uploadedFile ? uploadedFile.name : 'campaign_list.csv');
+  document.getElementById('rcuFileName').textContent = name;
+  document.getElementById('rcuMatchesUsed').textContent = jobMatchesUsed.toLocaleString();
+  document.getElementById('rcuBillingCount').textContent = jobMatchesUsed.toLocaleString();
+  const mapped = sampleFields.filter(f => f.status === 'Mapped' && f.fc && f.fc !== 'Select Field').map(f => f.fc);
+  document.getElementById('mappedFieldsListNew').textContent = mapped.join(', ') || 'None';
+  document.getElementById('rcuMappedCount').textContent = mapped.length + ' of ' + sampleFields.length;
+  updateRcuBalanceBanner();
+  document.getElementById('agreeBilling').checked = false;
+  updateRcuAcceptGating();
+}
+
+function updateRcuBalanceBanner() {
+  const shortfall = jobMatchesUsed - matchBalance;
+  const banner = document.getElementById('rcuBalanceBanner');
+  if (shortfall > 0) {
+    banner.style.display = '';
+    banner.innerHTML = 'Your balance was <strong>' + matchBalance.toLocaleString() + ' matches</strong> — this job used <strong>' + shortfall.toLocaleString() + ' more</strong> than you have available. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Add matches</a> to accept and download.';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function updateRcuAcceptGating() {
+  const shortfall = jobMatchesUsed - matchBalance;
+  const billingChecked = document.getElementById('agreeBilling').checked;
+  document.getElementById('acceptBtn').disabled = !(billingChecked && shortfall <= 0);
+}
+
+function acceptEnrichment() {
+  if (document.getElementById('acceptBtn').disabled) return;
+  matchBalance -= jobMatchesUsed;
+  renderMatchBalance();
+  const job = sampleReports[reviewJobIndex];
+  if (job) job.status = 'completed';
+  renderReports();
+  showDownloadNote(job ? job.name : uploadedFile.name);
+}
+
+function declineEnrichment() {
+  const job = sampleReports[reviewJobIndex];
+  if (job) job.status = 'declined';
+  renderReports();
+  navigate('reports');
+}
+
 // ===== Reports =====
 function renderReports() {
   const tbody = document.getElementById('reportsTableBody');
@@ -5314,13 +5391,19 @@ function renderReports() {
       const reason = r.failReason || 'An unknown error occurred. Please contact support.';
       statusHtml = `<div class="status-cell"><span class="fail-reason"><span class="status-text st-failed">Failed &#x26A0;</span><span class="fail-tooltip">${reason}</span></span></div>`;
       dlHtml = '';
+    } else if (r.status === 'awaiting_review') {
+      statusHtml = `<div class="status-cell"><span class="status-text st-review">Awaiting Review</span></div>`;
+      dlHtml = `<button class="action-icon disabled">${downloadSvg}</button>`;
+    } else if (r.status === 'declined') {
+      statusHtml = `<div class="status-cell"><span class="status-text st-declined">Declined</span></div>`;
+      dlHtml = '';
     }
     const tagBadge = r.source === 'tag'
       ? `<span class="tag-source-stamp" title="Sourced from Customer Recognition tag · last ${r.tagDays || 30} days">CR TAG · ${r.tagDays || 30}d</span>`
       : '';
     tr.innerHTML = `
       <td><input type="checkbox" class="report-check" onchange="checkBulkActions()"></td>
-      <td style="cursor:pointer" onclick="if('${r.status}'==='completed'){navigate('summary');document.getElementById('summaryFileName').textContent='${r.name}'}">${r.name}${tagBadge}</td>
+      <td style="cursor:pointer" onclick="if('${r.status}'==='awaiting_review'){reviewJobIndex=${i};navigate('summary')}">${r.name}${tagBadge}</td>
       <td>${r.date}</td>
       <td>${statusHtml}</td>
       <td>${dlHtml}</td>
