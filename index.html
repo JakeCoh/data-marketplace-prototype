@@ -2068,28 +2068,6 @@
   .upgrade-current .uc-value { font-weight: 700; }
   .upgrade-current .uc-value.highlight { color: #00c4d4; }
   .upgrade-add { padding: 20px 0; }
-  .upgrade-add-label { font-size: 14px; font-weight: 700; color: rgba(0,0,0,0.87); margin-bottom: 12px; }
-  .upgrade-add-note { font-size: 12px; color: rgba(0,0,0,0.55); margin: -6px 0 14px; line-height: 1.5; }
-  .upgrade-stepper {
-    display: flex; align-items: center; gap: 0; margin-bottom: 12px;
-  }
-  .upgrade-stepper button {
-    font-family: 'Lato', sans-serif;
-    width: 40px; height: 40px; border: 1px solid rgba(34,36,38,0.15);
-    background: #f9fafb; font-size: 20px; font-weight: 700; cursor: pointer;
-    color: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
-    transition: background .1s;
-  }
-  .upgrade-stepper button:first-child { border-radius: .28571429rem 0 0 .28571429rem; }
-  .upgrade-stepper button:last-child { border-radius: 0 .28571429rem .28571429rem 0; }
-  .upgrade-stepper button:hover { background: #e8e8e8; }
-  .upgrade-stepper button:disabled { opacity: 0.3; cursor: not-allowed; }
-  .upgrade-stepper .stepper-value {
-    height: 40px; min-width: 100px; border-top: 1px solid rgba(34,36,38,0.15);
-    border-bottom: 1px solid rgba(34,36,38,0.15); display: flex;
-    align-items: center; justify-content: center; font-size: 16px;
-    font-weight: 700; color: rgba(0,0,0,0.87); background: #fff;
-  }
   .upgrade-summary {
     background: #f9fafb; border: 1px solid rgba(34,36,38,0.1);
     border-radius: .28571429rem; padding: 16px 20px; margin-top: 8px;
@@ -3410,7 +3388,7 @@
           </div>
         </div>
         <div class="warning-banner" id="rcuBalanceBanner">
-          Your balance was <strong>8,200 matches</strong> — this job used <strong id="rcuShortfallText">212 more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openOverageModal()">Purchase the overage</a> to accept and download.
+          Your balance was <strong>8,200 matches</strong> — this job used <strong id="rcuShortfallText">212 more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Purchase the overage</a> to accept and download.
         </div>
         <div class="agree-row">
           <input type="checkbox" class="given" disabled checked>
@@ -3911,21 +3889,14 @@
 </div>
 
 <!-- Upgrade Plan Modal -->
+<!-- Overage Modal — the only match-purchasing path. Always charges the exact gap between balance and what's needed, wherever it's opened from (topbar, Credits & Billing, tag-flow overflow, the reference Confirm & Review screen, or the post-run Review & Confirm screen). No increments, no rate shown. -->
 <div class="modal-overlay" id="upgradeModal">
   <div class="upgrade-modal">
     <div class="upgrade-modal-header">
-      <h2>Add Matches <span class="h-emph">to Your Plan</span></h2>
-      <p>Purchase additional matches at your account's rate</p>
+      <h2>Purchase Overage</h2>
+      <p id="upgradeModalSub">Cover the gap between your match balance and what you need</p>
     </div>
     <div class="upgrade-modal-body">
-      <div class="upgrade-current">
-        <span class="uc-label">Current Plan</span>
-        <span class="uc-value">Professional</span>
-      </div>
-      <div class="upgrade-current">
-        <span class="uc-label">Your Purchase Rate <span class="dev-note">Pull from total rate on bundles on contract</span></span>
-        <span class="uc-value highlight" id="upgradeCpm">$40.00</span>
-      </div>
       <div class="upgrade-current">
         <span class="uc-label">Available Matches
           <span class="match-info">
@@ -3933,38 +3904,23 @@
             <span class="match-tooltip">Matches are allotted <strong>monthly</strong> and don't roll over — your balance resets when your next month's contract term begins.</span>
           </span>
         </span>
-        <span class="uc-value">8,200</span>
+        <span class="uc-value" id="upgradeAvailable">8,200</span>
       </div>
       <div class="upgrade-current">
         <span class="uc-label">Matches Needed</span>
-        <span class="uc-value" style="color:#d44">650 additional</span>
+        <span class="uc-value" style="color:#d44" id="upgradeDeficit">650 additional</span>
       </div>
       <div class="upgrade-add">
-        <div class="upgrade-add-label">Add Matches (in increments of 1,000)</div>
-        <div class="upgrade-add-note">These matches apply to your <strong>current contract month</strong> only — they expire when next month's term begins and don't roll over.</div>
-        <div class="upgrade-stepper">
-          <button onclick="adjustMatches(-1)" id="matchMinus">&#x2212;</button>
-          <div class="stepper-value" id="matchCount">1,000</div>
-          <button onclick="adjustMatches(1)" id="matchPlus">+</button>
-        </div>
         <div class="upgrade-summary">
-          <div class="upgrade-summary-row">
-            <span>Additional matches</span>
-            <span class="usr-value" id="summaryMatches">1,000</span>
-          </div>
-          <div class="upgrade-summary-row">
-            <span>Rate <span class="dev-note">Pull from total rate on bundles on contract</span></span>
-            <span class="usr-value" id="summaryRate">$40.00</span>
-          </div>
           <div class="upgrade-summary-row total">
-            <span>Total Cost</span>
-            <span class="usr-value" id="summaryTotal">$40.00</span>
+            <span>Overage Charge</span>
+            <span class="usr-value" id="summaryTotal">$26.00</span>
           </div>
 
           <!-- Phase 1: Sales handoff only -->
           <div data-phase-max="1" style="text-align:center;padding-top:10px;font-size:12.5px;color:rgba(0,0,0,0.5);">
-            Purchasing additional matches today requires connecting with your account team.<br>
-            <a href="mailto:sales@fullcontact.com?subject=File%20Enrichment%20-%20Additional%20Match%20Options" style="color:#00c4d4;text-decoration:none;font-size:12.5px;">Email your account team →</a>
+            Purchasing overage today requires connecting with your account team.<br>
+            <a href="mailto:sales@fullcontact.com?subject=File%20Enrichment%20-%20Data%20Overage%20Options" style="color:#00c4d4;text-decoration:none;font-size:12.5px;">Email your account team →</a>
           </div>
 
           <!-- Phase 1B+: Self-serve checkout -->
@@ -3981,8 +3937,8 @@
           <!-- Receipt (after self-serve charge succeeds) -->
           <div class="receipt-success" id="receiptSuccess" style="display:none;" data-phase-min="1B">
             <div class="receipt-success-icon">&#x2713;</div>
-            <div class="receipt-success-title" id="receiptTitle">Charged $40.00 to •••• 4242</div>
-            <div class="receipt-success-meta" id="receiptMeta">1,000 matches added to your balance for this contract month. Receipt emailed.</div>
+            <div class="receipt-success-title" id="receiptTitle">Charged $26.00 to •••• 4242</div>
+            <div class="receipt-success-meta" id="receiptMeta">650 matches added to your balance. Receipt emailed.</div>
           </div>
         </div>
       </div>
@@ -3990,68 +3946,7 @@
     <div class="upgrade-modal-footer">
       <button class="btn-secondary" onclick="closeUpgradeModal()">Cancel</button>
       <!-- Phase 1: button is a sales handoff; Phase 1B+: button completes the charge -->
-      <button class="btn-primary" id="upgradePrimaryBtn" onclick="confirmUpgrade()">Purchase Matches</button>
-    </div>
-  </div>
-</div>
-
-<!-- Data Overage Modal — exact-cost purchase for the shortfall a completed run needs, distinct from the general Add Matches modal above -->
-<div class="modal-overlay" id="overageModal">
-  <div class="upgrade-modal">
-    <div class="upgrade-modal-header">
-      <h2>Purchase Data Overage</h2>
-      <p>This job used more matches than you have available — here's what covering it costs</p>
-    </div>
-    <div class="upgrade-modal-body">
-      <div class="upgrade-current">
-        <span class="uc-label">Your Overage Rate <span class="dev-note">Pull from account's overage rate on contract</span></span>
-        <span class="uc-value highlight" id="overageCpm">$40.00</span>
-      </div>
-      <div class="upgrade-add">
-        <div class="upgrade-summary">
-          <div class="upgrade-summary-row">
-            <span>Data overage for this job</span>
-            <span class="usr-value" id="overageCount">212</span>
-          </div>
-          <div class="upgrade-summary-row">
-            <span>Overage Rate <span class="dev-note">Pull from account's overage rate on contract</span></span>
-            <span class="usr-value" id="overageRate">$40.00</span>
-          </div>
-          <div class="upgrade-summary-row total">
-            <span>Total Cost</span>
-            <span class="usr-value" id="overageTotal">$8.48</span>
-          </div>
-
-          <!-- Phase 1: Sales handoff only -->
-          <div data-phase-max="1" style="text-align:center;padding-top:10px;font-size:12.5px;color:rgba(0,0,0,0.5);">
-            Purchasing data overage today requires connecting with your account team.<br>
-            <a href="mailto:sales@fullcontact.com?subject=File%20Enrichment%20-%20Data%20Overage%20Options" style="color:#00c4d4;text-decoration:none;font-size:12.5px;">Email your account team →</a>
-          </div>
-
-          <!-- Phase 1B+: Self-serve checkout -->
-          <div class="payment-block" data-phase-min="1B" data-shimmer-pill="true">
-            <div class="payment-block-title">Payment Method</div>
-            <div class="payment-method-row">
-              <div class="pm-card-icon">VISA</div>
-              <span class="pm-card-num">•••• •••• •••• 4242</span>
-              <span style="color:#6a7a8e;font-size:12px;">Exp 09/28</span>
-              <span class="pm-edit" onclick="alert('In production, this opens the Stripe element to update card on file.')">Update</span>
-            </div>
-          </div>
-
-          <!-- Receipt (after self-serve charge succeeds) -->
-          <div class="receipt-success" id="overageReceiptSuccess" style="display:none;" data-phase-min="1B">
-            <div class="receipt-success-icon">&#x2713;</div>
-            <div class="receipt-success-title" id="overageReceiptTitle">Charged $8.48 to •••• 4242</div>
-            <div class="receipt-success-meta" id="overageReceiptMeta">212 matches added to cover this job's overage. Receipt emailed.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="upgrade-modal-footer">
-      <button class="btn-secondary" onclick="closeOverageModal()">Cancel</button>
-      <!-- Phase 1: button is a sales handoff; Phase 1B+: button completes the charge -->
-      <button class="btn-primary" id="overagePrimaryBtn" onclick="confirmOverage()">Purchase Overage — $8.48</button>
+      <button class="btn-primary" id="upgradePrimaryBtn" onclick="confirmUpgrade()">Charge $26.00 & Add Matches</button>
     </div>
   </div>
 </div>
@@ -4636,11 +4531,10 @@ function setupConfirmFromTag() {
     }
     // Phase 1B+ — offer self-serve upgrade. Phase 1 has no upgrade path, only the smaller-range option.
     if (PHASE_ORDER[activePhase] >= PHASE_ORDER['1B']) {
-      const buy = Math.ceil(deficit / 1000) * 1000;
-      const cost = (buy / 1000) * 40;
+      const cost = (deficit / 1000) * cpmRate;
       optsHtml += `<button class="tag-overflow-cta" onclick="openUpgradeModal()">
-        Buy ${buy.toLocaleString()} more matches
-        <span class="cta-meta">~$${cost.toFixed(2)} at your rate</span>
+        Buy ${deficit.toLocaleString()} more matches
+        <span class="cta-meta">$${cost.toFixed(2)} overage charge</span>
       </button>`;
     }
     options.innerHTML = optsHtml;
@@ -5225,7 +5119,6 @@ function renderPricingRollup() {
 }
 
 // ===== Match Balance / Upgrade Modal =====
-let matchIncrement = 1;
 const cpmRate = 40.00;
 let matchBalance = 8200;
 let monthSpend = 240.00;
@@ -5258,18 +5151,32 @@ function renderPurchaseHistory() {
   `).join('');
 }
 
+// Single source of truth for "how much overage is outstanding right now" —
+// wherever the modal is opened from, it always charges exactly this, never more.
+function getCurrentDeficit() {
+  if (currentScreen === 'summary') {
+    return Math.max(0, jobMatchesUsed - matchBalance);
+  }
+  if (tagFlowContext && currentScreen === 'confirm') {
+    return Math.max(0, tagFlowContext.estimatedMatches - matchBalance);
+  }
+  return Math.max(0, 8850 - matchBalance);
+}
+
 function openUpgradeModal() {
-  matchIncrement = 1;
+  const deficit = getCurrentDeficit();
+  const cost = (deficit / 1000) * cpmRate;
   document.getElementById('receiptSuccess').style.display = 'none';
-  // Reset button label per phase
+  document.getElementById('upgradeAvailable').textContent = matchBalance.toLocaleString();
+  document.getElementById('upgradeDeficit').textContent = deficit > 0 ? deficit.toLocaleString() + ' additional' : 'None — balance covers it';
+  document.getElementById('summaryTotal').textContent = '$' + cost.toFixed(2);
   const btn = document.getElementById('upgradePrimaryBtn');
-  btn.disabled = false;
+  btn.disabled = deficit <= 0;
   if (PHASE_ORDER[activePhase] >= PHASE_ORDER['1B']) {
-    btn.textContent = 'Charge & Add Matches';
+    btn.textContent = deficit > 0 ? 'Charge $' + cost.toFixed(2) + ' & Add Matches' : 'No Overage to Cover';
   } else {
     btn.textContent = 'Request from Sales';
   }
-  updateUpgradeUI();
   document.getElementById('upgradeModal').classList.add('active');
 }
 
@@ -5277,49 +5184,30 @@ function closeUpgradeModal() {
   document.getElementById('upgradeModal').classList.remove('active');
 }
 
-function adjustMatches(delta) {
-  matchIncrement = Math.max(1, matchIncrement + delta);
-  updateUpgradeUI();
-}
-
-function updateUpgradeUI() {
-  const count = matchIncrement * 1000;
-  const cost = (count / 1000) * cpmRate;
-  document.getElementById('matchCount').textContent = count.toLocaleString();
-  document.getElementById('matchMinus').disabled = matchIncrement <= 1;
-  document.getElementById('summaryMatches').textContent = count.toLocaleString();
-  document.getElementById('summaryRate').textContent = '$' + cpmRate.toFixed(2);
-  document.getElementById('summaryTotal').textContent = '$' + cost.toFixed(2);
-  // Update primary button to reflect total in 1B+
-  const btn = document.getElementById('upgradePrimaryBtn');
-  if (PHASE_ORDER[activePhase] >= PHASE_ORDER['1B']) {
-    btn.textContent = 'Charge $' + cost.toFixed(2) + ' & Add Matches';
-  }
-}
-
 function confirmUpgrade() {
-  const count = matchIncrement * 1000;
-  const cost = (count / 1000) * cpmRate;
+  const deficit = getCurrentDeficit();
+  if (deficit <= 0) { closeUpgradeModal(); return; }
+  const cost = (deficit / 1000) * cpmRate;
 
   // Phase 1: just sends a Sales request — no balance change
   if (PHASE_ORDER[activePhase] < PHASE_ORDER['1B']) {
-    alert('In Phase 1, this triggers an email to your account team. They get back to you to schedule a contract amendment. No real-time match top-up.');
+    alert('In Phase 1, this triggers an email to your account team. They get back to you to schedule a contract amendment. No real-time overage purchase.');
     closeUpgradeModal();
     return;
   }
 
-  // Phase 1B+: self-serve charge
-  matchBalance += count;
+  // Phase 1B+: self-serve charge for the exact overage — no increments
+  matchBalance += deficit;
   monthSpend += cost;
   purchases.unshift({
     date: new Date().toLocaleDateString('en-US', {month:'2-digit',day:'2-digit',year:'numeric'}),
-    matches: count, rate: cpmRate, total: cost,
+    matches: deficit, rate: cpmRate, total: cost,
     method: '•••• 4242', receipt: 'rcpt_' + Math.random().toString(36).slice(2, 7)
   });
 
   // Show receipt inline, then close after a beat
   document.getElementById('receiptTitle').textContent = 'Charged $' + cost.toFixed(2) + ' to •••• 4242';
-  document.getElementById('receiptMeta').textContent = count.toLocaleString() + ' matches added to your balance for this contract month. Receipt emailed.';
+  document.getElementById('receiptMeta').textContent = deficit.toLocaleString() + ' matches added to your balance. Receipt emailed.';
   document.getElementById('receiptSuccess').style.display = 'block';
   document.getElementById('upgradePrimaryBtn').disabled = true;
 
@@ -5333,64 +5221,10 @@ function confirmUpgrade() {
   if (warnBanner && matchBalance >= 8850) warnBanner.style.display = 'none';
   // Tag flow: re-render the overflow banner now that balance has changed
   if (tagFlowContext && currentScreen === 'confirm') setupConfirmFromTag();
+  // Review & Confirm (post-run): re-check shortfall/gating now that balance has changed
+  if (currentScreen === 'summary') { updateRcuBalanceBanner(); updateRcuAcceptGating(); }
 
   setTimeout(() => closeUpgradeModal(), 1800);
-}
-
-// ===== Data Overage Modal (Review & Confirm post-run — exact-cost purchase) =====
-function openOverageModal() {
-  const overage = Math.max(0, jobMatchesUsed - matchBalance);
-  const cost = (overage / 1000) * cpmRate;
-  document.getElementById('overageReceiptSuccess').style.display = 'none';
-  document.getElementById('overageCount').textContent = overage.toLocaleString();
-  document.getElementById('overageCpm').textContent = '$' + cpmRate.toFixed(2);
-  document.getElementById('overageRate').textContent = '$' + cpmRate.toFixed(2);
-  document.getElementById('overageTotal').textContent = '$' + cost.toFixed(2);
-  const btn = document.getElementById('overagePrimaryBtn');
-  btn.disabled = false;
-  if (PHASE_ORDER[activePhase] >= PHASE_ORDER['1B']) {
-    btn.textContent = 'Charge $' + cost.toFixed(2) + ' & Purchase Overage';
-  } else {
-    btn.textContent = 'Request from Sales';
-  }
-  document.getElementById('overageModal').classList.add('active');
-}
-
-function closeOverageModal() {
-  document.getElementById('overageModal').classList.remove('active');
-}
-
-function confirmOverage() {
-  const overage = Math.max(0, jobMatchesUsed - matchBalance);
-  const cost = (overage / 1000) * cpmRate;
-
-  // Phase 1: just sends a Sales request — no balance change
-  if (PHASE_ORDER[activePhase] < PHASE_ORDER['1B']) {
-    alert('In Phase 1, this triggers an email to your account team. They get back to you to schedule a contract amendment. No real-time overage purchase.');
-    closeOverageModal();
-    return;
-  }
-
-  // Phase 1B+: self-serve charge for the exact overage — no increments
-  matchBalance += overage;
-  monthSpend += cost;
-  purchases.unshift({
-    date: new Date().toLocaleDateString('en-US', {month:'2-digit',day:'2-digit',year:'numeric'}),
-    matches: overage, rate: cpmRate, total: cost,
-    method: '•••• 4242', receipt: 'rcpt_' + Math.random().toString(36).slice(2, 7)
-  });
-
-  document.getElementById('overageReceiptTitle').textContent = 'Charged $' + cost.toFixed(2) + ' to •••• 4242';
-  document.getElementById('overageReceiptMeta').textContent = overage.toLocaleString() + ' matches added to cover this job\'s overage. Receipt emailed.';
-  document.getElementById('overageReceiptSuccess').style.display = 'block';
-  document.getElementById('overagePrimaryBtn').disabled = true;
-
-  renderMatchBalance();
-  renderPurchaseHistory();
-  updateRcuBalanceBanner();
-  updateRcuAcceptGating();
-
-  setTimeout(() => closeOverageModal(), 1800);
 }
 
 // ===== Confirm =====
@@ -5457,7 +5291,7 @@ function updateRcuBalanceBanner() {
   const banner = document.getElementById('rcuBalanceBanner');
   if (shortfall > 0) {
     banner.style.display = '';
-    banner.innerHTML = 'Your balance was <strong>' + matchBalance.toLocaleString() + ' matches</strong> — this job used <strong>' + shortfall.toLocaleString() + ' more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openOverageModal()">Purchase the overage</a> to accept and download.';
+    banner.innerHTML = 'Your balance was <strong>' + matchBalance.toLocaleString() + ' matches</strong> — this job used <strong>' + shortfall.toLocaleString() + ' more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Purchase the overage</a> to accept and download.';
   } else {
     banner.style.display = 'none';
   }
