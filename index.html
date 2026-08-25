@@ -3410,7 +3410,7 @@
           </div>
         </div>
         <div class="warning-banner" id="rcuBalanceBanner">
-          Your balance was <strong>8,200 matches</strong> — this job used <strong id="rcuShortfallText">212 more</strong> than you have available. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Add matches</a> to accept and download.
+          Your balance was <strong>8,200 matches</strong> — this job used <strong id="rcuShortfallText">212 more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openOverageModal()">Purchase the overage</a> to accept and download.
         </div>
         <div class="agree-row">
           <input type="checkbox" class="given" disabled checked>
@@ -3991,6 +3991,67 @@
       <button class="btn-secondary" onclick="closeUpgradeModal()">Cancel</button>
       <!-- Phase 1: button is a sales handoff; Phase 1B+: button completes the charge -->
       <button class="btn-primary" id="upgradePrimaryBtn" onclick="confirmUpgrade()">Purchase Matches</button>
+    </div>
+  </div>
+</div>
+
+<!-- Data Overage Modal — exact-cost purchase for the shortfall a completed run needs, distinct from the general Add Matches modal above -->
+<div class="modal-overlay" id="overageModal">
+  <div class="upgrade-modal">
+    <div class="upgrade-modal-header">
+      <h2>Purchase Data Overage</h2>
+      <p>This job used more matches than you have available — here's what covering it costs</p>
+    </div>
+    <div class="upgrade-modal-body">
+      <div class="upgrade-current">
+        <span class="uc-label">Your CPM Rate <span class="dev-note">Pull from total CPM on bundles on contract</span></span>
+        <span class="uc-value highlight" id="overageCpm">$40.00</span>
+      </div>
+      <div class="upgrade-add">
+        <div class="upgrade-summary">
+          <div class="upgrade-summary-row">
+            <span>Data overage for this job</span>
+            <span class="usr-value" id="overageCount">212</span>
+          </div>
+          <div class="upgrade-summary-row">
+            <span>Rate (CPM) <span class="dev-note">Pull from total CPM on bundles on contract</span></span>
+            <span class="usr-value" id="overageRate">$40.00</span>
+          </div>
+          <div class="upgrade-summary-row total">
+            <span>Total Cost</span>
+            <span class="usr-value" id="overageTotal">$8.48</span>
+          </div>
+
+          <!-- Phase 1: Sales handoff only -->
+          <div data-phase-max="1" style="text-align:center;padding-top:10px;font-size:12.5px;color:rgba(0,0,0,0.5);">
+            Purchasing data overage today requires connecting with your account team.<br>
+            <a href="mailto:sales@fullcontact.com?subject=File%20Enrichment%20-%20Data%20Overage%20Options" style="color:#00c4d4;text-decoration:none;font-size:12.5px;">Email your account team →</a>
+          </div>
+
+          <!-- Phase 1B+: Self-serve checkout -->
+          <div class="payment-block" data-phase-min="1B" data-shimmer-pill="true">
+            <div class="payment-block-title">Payment Method</div>
+            <div class="payment-method-row">
+              <div class="pm-card-icon">VISA</div>
+              <span class="pm-card-num">•••• •••• •••• 4242</span>
+              <span style="color:#6a7a8e;font-size:12px;">Exp 09/28</span>
+              <span class="pm-edit" onclick="alert('In production, this opens the Stripe element to update card on file.')">Update</span>
+            </div>
+          </div>
+
+          <!-- Receipt (after self-serve charge succeeds) -->
+          <div class="receipt-success" id="overageReceiptSuccess" style="display:none;" data-phase-min="1B">
+            <div class="receipt-success-icon">&#x2713;</div>
+            <div class="receipt-success-title" id="overageReceiptTitle">Charged $8.48 to •••• 4242</div>
+            <div class="receipt-success-meta" id="overageReceiptMeta">212 matches added to cover this job's overage. Receipt emailed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="upgrade-modal-footer">
+      <button class="btn-secondary" onclick="closeOverageModal()">Cancel</button>
+      <!-- Phase 1: button is a sales handoff; Phase 1B+: button completes the charge -->
+      <button class="btn-primary" id="overagePrimaryBtn" onclick="confirmOverage()">Purchase Overage — $8.48</button>
     </div>
   </div>
 </div>
@@ -5272,10 +5333,64 @@ function confirmUpgrade() {
   if (warnBanner && matchBalance >= 8850) warnBanner.style.display = 'none';
   // Tag flow: re-render the overflow banner now that balance has changed
   if (tagFlowContext && currentScreen === 'confirm') setupConfirmFromTag();
-  // Review & Confirm (post-run): re-check shortfall/gating now that balance has changed
-  if (currentScreen === 'summary') { updateRcuBalanceBanner(); updateRcuAcceptGating(); }
 
   setTimeout(() => closeUpgradeModal(), 1800);
+}
+
+// ===== Data Overage Modal (Review & Confirm post-run — exact-cost purchase) =====
+function openOverageModal() {
+  const overage = Math.max(0, jobMatchesUsed - matchBalance);
+  const cost = (overage / 1000) * cpmRate;
+  document.getElementById('overageReceiptSuccess').style.display = 'none';
+  document.getElementById('overageCount').textContent = overage.toLocaleString();
+  document.getElementById('overageCpm').textContent = '$' + cpmRate.toFixed(2);
+  document.getElementById('overageRate').textContent = '$' + cpmRate.toFixed(2);
+  document.getElementById('overageTotal').textContent = '$' + cost.toFixed(2);
+  const btn = document.getElementById('overagePrimaryBtn');
+  btn.disabled = false;
+  if (PHASE_ORDER[activePhase] >= PHASE_ORDER['1B']) {
+    btn.textContent = 'Charge $' + cost.toFixed(2) + ' & Purchase Overage';
+  } else {
+    btn.textContent = 'Request from Sales';
+  }
+  document.getElementById('overageModal').classList.add('active');
+}
+
+function closeOverageModal() {
+  document.getElementById('overageModal').classList.remove('active');
+}
+
+function confirmOverage() {
+  const overage = Math.max(0, jobMatchesUsed - matchBalance);
+  const cost = (overage / 1000) * cpmRate;
+
+  // Phase 1: just sends a Sales request — no balance change
+  if (PHASE_ORDER[activePhase] < PHASE_ORDER['1B']) {
+    alert('In Phase 1, this triggers an email to your account team. They get back to you to schedule a contract amendment. No real-time overage purchase.');
+    closeOverageModal();
+    return;
+  }
+
+  // Phase 1B+: self-serve charge for the exact overage — no increments
+  matchBalance += overage;
+  monthSpend += cost;
+  purchases.unshift({
+    date: new Date().toLocaleDateString('en-US', {month:'2-digit',day:'2-digit',year:'numeric'}),
+    matches: overage, rate: cpmRate, total: cost,
+    method: '•••• 4242', receipt: 'rcpt_' + Math.random().toString(36).slice(2, 7)
+  });
+
+  document.getElementById('overageReceiptTitle').textContent = 'Charged $' + cost.toFixed(2) + ' to •••• 4242';
+  document.getElementById('overageReceiptMeta').textContent = overage.toLocaleString() + ' matches added to cover this job\'s overage. Receipt emailed.';
+  document.getElementById('overageReceiptSuccess').style.display = 'block';
+  document.getElementById('overagePrimaryBtn').disabled = true;
+
+  renderMatchBalance();
+  renderPurchaseHistory();
+  updateRcuBalanceBanner();
+  updateRcuAcceptGating();
+
+  setTimeout(() => closeOverageModal(), 1800);
 }
 
 // ===== Confirm =====
@@ -5342,7 +5457,7 @@ function updateRcuBalanceBanner() {
   const banner = document.getElementById('rcuBalanceBanner');
   if (shortfall > 0) {
     banner.style.display = '';
-    banner.innerHTML = 'Your balance was <strong>' + matchBalance.toLocaleString() + ' matches</strong> — this job used <strong>' + shortfall.toLocaleString() + ' more</strong> than you have available. <a href="#" onclick="event.preventDefault();openUpgradeModal()">Add matches</a> to accept and download.';
+    banner.innerHTML = 'Your balance was <strong>' + matchBalance.toLocaleString() + ' matches</strong> — this job used <strong>' + shortfall.toLocaleString() + ' more</strong> than you have available, a data overage. <a href="#" onclick="event.preventDefault();openOverageModal()">Purchase the overage</a> to accept and download.';
   } else {
     banner.style.display = 'none';
   }
