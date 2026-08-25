@@ -3337,7 +3337,7 @@
             <div class="credits-card-sub">Refreshes monthly per contract</div>
           </div>
           <div class="credits-card">
-            <div class="credits-card-label">CPM Rate</div>
+            <div class="credits-card-label">Purchase Rate</div>
             <div class="credits-card-value">$40.00</div>
             <div class="credits-card-sub">Blended rate from your bundles</div>
           </div>
@@ -3923,7 +3923,7 @@
         <span class="uc-value">Professional</span>
       </div>
       <div class="upgrade-current">
-        <span class="uc-label">Your CPM Rate <span class="dev-note">Pull from total CPM on bundles on contract</span></span>
+        <span class="uc-label">Your Purchase Rate <span class="dev-note">Pull from total rate on bundles on contract</span></span>
         <span class="uc-value highlight" id="upgradeCpm">$40.00</span>
       </div>
       <div class="upgrade-current">
@@ -3953,7 +3953,7 @@
             <span class="usr-value" id="summaryMatches">1,000</span>
           </div>
           <div class="upgrade-summary-row">
-            <span>Rate (CPM) <span class="dev-note">Pull from total CPM on bundles on contract</span></span>
+            <span>Rate <span class="dev-note">Pull from total rate on bundles on contract</span></span>
             <span class="usr-value" id="summaryRate">$40.00</span>
           </div>
           <div class="upgrade-summary-row total">
@@ -4640,7 +4640,7 @@ function setupConfirmFromTag() {
       const cost = (buy / 1000) * 40;
       optsHtml += `<button class="tag-overflow-cta" onclick="openUpgradeModal()">
         Buy ${buy.toLocaleString()} more matches
-        <span class="cta-meta">~$${cost.toFixed(2)} at your CPM</span>
+        <span class="cta-meta">~$${cost.toFixed(2)} at your rate</span>
       </button>`;
     }
     options.innerHTML = optsHtml;
@@ -5250,7 +5250,7 @@ function renderPurchaseHistory() {
     <tr>
       <td>${p.date}</td>
       <td>${p.matches.toLocaleString()}</td>
-      <td>$${p.rate.toFixed(2)} CPM</td>
+      <td>$${p.rate.toFixed(2)}</td>
       <td>$${p.total.toFixed(2)}</td>
       <td>${p.method}</td>
       <td><a href="#" onclick="event.preventDefault();alert('Receipt ${p.receipt} would download as PDF')" style="color:#00c4d4;text-decoration:none;">View</a></td>
